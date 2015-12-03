@@ -18,6 +18,7 @@ namespace ContosoUniversity.DAL
             this.Configuration.LazyLoadingEnabled = false;
         }
 
+        public DbSet<Person> People { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
@@ -43,6 +44,8 @@ namespace ContosoUniversity.DAL
                 .HasOptional(p => p.OfficeAssignment).WithRequired(p => p.Instructor);
 
             modelBuilder.Entity<Department>().MapToStoredProcedures();
+
+            modelBuilder.Entity<Department>().Property(p => p.RowVersion).IsConcurrencyToken();
 
         }
     }
